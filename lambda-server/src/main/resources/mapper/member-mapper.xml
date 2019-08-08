@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lambda.server.mapper.MemberMapper">
+
+<resultMap id="resultMap" type="com.lambda.core.model.Member">
+	<result column="id" property="id" jdbcType="BIGINT"/>
+	<result column="user_name" property="userName" jdbcType="VARCHAR"/>
+</resultMap>
+
+<select id="getById" resultMap="resultMap" parameterType="LONG">
+	SELECT * FROM member WHERE id = #{id} 
+</select>
+
+<select id="getByPage" resultMap="resultMap">
+	SELECT * FROM member WHERE 1=1 
+		<if test="id !=null">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+		<if test="userName !=null and userName !=''">
+			AND INSTR(user_name,#{userName,jdbcType=VARCHAR})>0 
+		</if>
+</select>
+
+<insert id="saveModel" useGeneratedKeys="true" keyProperty="id" parameterType="com.lambda.core.model.Member">
+	INSERT INTO member(
+		id,
+		user_name
+	)VALUES(
+		#{id,jdbcType=BIGINT},
+		#{userName,jdbcType=VARCHAR})
+</insert>
+
+<update id="updateModel" keyProperty="id" parameterType="com.lambda.core.model.Member">
+	UPDATE member SET
+		user_name = #{userName,jdbcType=VARCHAR} 
+	WHERE id = #{id}
+</update>
+
+<update id="updateModelSelective" keyProperty="id" parameterType="com.lambda.core.model.Member">
+	UPDATE member
+		<set>
+		<if test="userName != null">
+			user_name = #{userName,jdbcType=VARCHAR}
+		</if>
+		</set> 
+	WHERE id = #{id}
+</update>
+
+<delete id="deleteById" parameterType="com.lambda.core.model.Member">
+	DELETE FROM member WHERE id=#{id}
+</delete>
+
+</mapper>
