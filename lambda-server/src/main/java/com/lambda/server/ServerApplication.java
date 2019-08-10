@@ -11,7 +11,6 @@ import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
@@ -19,7 +18,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.unit.DataSize;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * 服务端（数据持久层）
@@ -33,12 +31,6 @@ import org.springframework.web.client.RestTemplate;
 @EnableAsync
 @MapperScan("com.lambda.server.mapper")
 public class ServerApplication {
-	
-	@Bean
-	@LoadBalanced
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
 	
 	@Bean
 	WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> containerCustomizer() throws Exception {
