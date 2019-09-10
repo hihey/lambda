@@ -126,7 +126,23 @@ public class DateUtil {
         long time2 = cal.getTimeInMillis();
         long between_days=(time2-time1)/(1000*3600*24);
         return Integer.parseInt(String.valueOf(between_days));
-    } 
+    }
+    
+    /**
+     * 计算两个日期之间相差的天数（忽略时分秒）
+     * @param smdate 较小的时间 
+     * @param bdate  较大的时间 
+     * @throws ParseException
+     */
+    public static int daysBetweenByDay(Date smdate,Date bdate) throws ParseException {
+    	SimpleDateFormat simple = new SimpleDateFormat(DATE);
+    	
+    	long time1 = simple.parse(simple.format(smdate)).getTime();
+    	long time2 = simple.parse(simple.format(bdate)).getTime();
+    	
+        long between_days=(time2-time1)/(1000*3600*24);
+        return Integer.parseInt(String.valueOf(between_days));
+    }
     
     /**  
      * 计算两个日期之间相差的分钟数
